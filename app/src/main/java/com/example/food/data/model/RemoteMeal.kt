@@ -11,5 +11,11 @@ data class RemoteMeal(
     val strIngredient3: String = ""
 )
 
-fun RemoteMeal.toDomain() = Meal(idMeal, strMeal, "$strIngredient1, $strIngredient2, $strIngredient3 ...", strMealThumb)
+fun RemoteMeal.toDomain() = Meal(
+    idMeal,
+    strMeal,
+    "$strIngredient1, $strIngredient2, $strIngredient3 ...",
+    strMealThumb
+)
+
 fun List<RemoteMeal>.toDomain() = map { it.toDomain() }

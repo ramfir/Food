@@ -10,13 +10,12 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 val menuModule = module {
     single<MenuRepository> { MenuRepositoryImpl(get()) }
-    single<MenuInteractor> { MenuInteractor(get()) }
+    single { MenuInteractor(get()) }
     viewModel { MenuViewModel(get()) }
-    single<Retrofit> { provideRetrofit() }
-    single<TheMealDBAPI> { provideTheMealDBAPI(get()) }
+    single { provideRetrofit() }
+    single { provideTheMealDBAPI(get()) }
 }
 
 fun provideRetrofit(): Retrofit {

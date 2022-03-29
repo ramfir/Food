@@ -9,4 +9,14 @@
         android:name="com.example.food.presentation.menu.ui.MenuFragment"
         android:label="start_screen_fragment"
         tools:layout="@layout/menu_fragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.food.presentation.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/basketFragment"
+        android:name="com.example.food.presentation.BasketFragment"
+        android:label="fragment_basket"
+        tools:layout="@layout/fragment_basket" />
 </navigation>

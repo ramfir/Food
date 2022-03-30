@@ -1,55 +1,33 @@
 package com.example.food.presentation.menu.ui
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.graphics.Color
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
-import com.example.food.databinding.ItemBannerBinding
 import com.example.food.databinding.ItemCategoryBinding
-import com.example.food.domain.model.Banner
-import com.example.food.domain.model.Category
+import com.example.food.presentation.menu.model.UICategory
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 
-fun getCategoryAdapterDelegate() = adapterDelegateViewBinding<Category, Category, ItemCategoryBinding>(
+
+fun getCategoryAdapterDelegate(itemClickListener: (UICategory) -> Unit) = adapterDelegateViewBinding<UICategory, UICategory, ItemCategoryBinding>(
     { layoutInflater, root -> ItemCategoryBinding.inflate(layoutInflater, root, false) }
 ) {
+
+    binding.textViewCategory.setOnClickListener {
+        itemClickListener(item)
+    }
+
     bind {
         binding.textViewCategory.text = item.name
-    }
-}
-
-fun getCategoryDiffCallback() = object : DiffUtil.ItemCallback<Category>() {
-    override fun areItemsTheSame(oldItem: Category, newItem: Category) = oldItem.name == newItem.name
-    override fun areContentsTheSame(oldItem: Category, newItem: Category) = oldItem == newItem
-}
-
-/*
-class CategoryAdapter(): RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
-
-    private var categoryList = mutableListOf<Category>()
-
-    class CategoryViewHolder(private val binding: ItemCategoryBinding):RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(category: Category) {
-            binding.textViewCategory.text = category.name
+        if (item.isChecked) {
+            binding.textViewCategory.setTextColor(Color.parseColor("#FD3A69"))
+            binding.textViewCategory.setBackgroundColor(Color.parseColor("#feb3c5"))
+        } else {
+            binding.textViewCategory.setTextColor(Color.GRAY)
+            binding.textViewCategory.setBackgroundColor(Color.WHITE)
         }
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        val binding = ItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
-        return CategoryViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.bind(categoryList[position])
-    }
-
-    override fun getItemCount(): Int  = categoryList.size
-
-    fun setData(categoryList: List<Category>) {
-        this.categoryList.addAll(categoryList)
-        notifyDataSetChanged()
-    }
 }
-*/
+
+fun getCategoryDiffCallback() = object : DiffUtil.ItemCallback<UICategory>() {
+    override fun areItemsTheSame(oldItem: UICategory, newItem: UICategory) = oldItem.name == newItem.name
+    override fun areContentsTheSame(oldItem: UICategory, newItem: UICategory) = oldItem == newItem
+}

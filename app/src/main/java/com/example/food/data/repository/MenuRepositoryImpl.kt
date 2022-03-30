@@ -12,13 +12,13 @@ import com.example.food.domain.repository.MenuRepository
 class MenuRepositoryImpl(private val api: TheMealDBAPI) : MenuRepository {
 
     override fun getBannerList(): List<Banner> = listOf(
-        Banner(R.drawable.img_pizza_banner),
-        Banner(R.drawable.img_pizza_banner),
-        Banner(R.drawable.img_pizza_banner),
-        Banner(R.drawable.img_pizza_banner),
-        Banner(R.drawable.img_pizza_banner),
-        Banner(R.drawable.img_pizza_banner),
-        Banner(R.drawable.img_pizza_banner)
+        Banner(R.drawable.img_banner),
+        Banner(R.drawable.img_banner),
+        Banner(R.drawable.img_banner),
+        Banner(R.drawable.img_banner),
+        Banner(R.drawable.img_banner),
+        Banner(R.drawable.img_banner),
+        Banner(R.drawable.img_banner)
     )
 
     override suspend fun getCategoryList() = api.getCategories().categories.toDomain()

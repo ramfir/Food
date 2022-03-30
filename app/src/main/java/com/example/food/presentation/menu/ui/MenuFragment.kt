@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.food.R
 import com.example.food.databinding.MenuFragmentBinding
+import com.example.food.presentation.menu.model.UICategory
 import com.example.food.presentation.menu.mvvm.MenuViewModel
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -23,8 +24,19 @@ class MenuFragment : Fragment(R.layout.menu_fragment) {
         AsyncListDifferDelegationAdapter(getBannerDiffCallback(), getBannerAdapterDelegate())
     }
     private val categoryAdapter by lazy {
-        AsyncListDifferDelegationAdapter(getCategoryDiffCallback(), getCategoryAdapterDelegate())
+        AsyncListDifferDelegationAdapter(getCategoryDiffCallback(), getCategoryAdapterDelegate() {
+            itemClicked(it)
+        })
     }
+
+    private fun itemClicked(it: UICategory) {
+        categoryAdapter.items.forEach { it.isChecked = false }
+        it.isChecked = true
+        categoryAdapter.notifyDataSetChanged()
+        viewModel.getMealList(it.name)
+        mealAdapter.items = listOf()
+    }
+
     private val mealAdapter by lazy {
         AsyncListDifferDelegationAdapter(getMealDiffCallback(), getMealAdapterDelegate())
     }

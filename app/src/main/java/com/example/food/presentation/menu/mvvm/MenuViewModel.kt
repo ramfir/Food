@@ -8,6 +8,8 @@ import com.example.food.domain.menu.MenuInteractor
 import com.example.food.domain.model.Banner
 import com.example.food.domain.model.Category
 import com.example.food.domain.model.Meal
+import com.example.food.presentation.menu.model.UICategory
+import com.example.food.presentation.menu.model.toUI
 import kotlinx.coroutines.launch
 
 class MenuViewModel(private val menuInteractor: MenuInteractor) : ViewModel() {
@@ -15,15 +17,17 @@ class MenuViewModel(private val menuInteractor: MenuInteractor) : ViewModel() {
     private val _bannerList = MutableLiveData(menuInteractor.getBannerList())
     val bannerList: LiveData<List<Banner>> = _bannerList
 
-    private val _categoryList = MutableLiveData<List<Category>>()
-    val categoryList: LiveData<List<Category>> = _categoryList
+    private val _categoryList = MutableLiveData<List<UICategory>>()
+    val categoryList: LiveData<List<UICategory>> = _categoryList
 
     private val _mealList = MutableLiveData<List<Meal>>()
     val mealList: LiveData<List<Meal>> = _mealList
 
     fun getCategoryList() {
         viewModelScope.launch {
-            _categoryList.value = menuInteractor.getCategoryList()
+            val categoryListFromAPI = menuInteractor.getCategoryList().toUI()
+            categoryListFromAPI[0].isChecked = true
+            _categoryList.value = categoryListFromAPI
         }
     }
 

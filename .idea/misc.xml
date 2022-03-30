@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Firdavs/AndroidStudioProjects/Food/app/src/main/res/drawable/ic_basket.xml" value="0.30205128205128207" />
         <entry key="..\:/Users/Firdavs/AndroidStudioProjects/Food/app/src/main/res/drawable/ic_menu.xml" value="0.30205128205128207" />
         <entry key="..\:/Users/Firdavs/AndroidStudioProjects/Food/app/src/main/res/drawable/ic_profile.xml" value="0.30205128205128207" />
         <entry key="..\:/Users/Firdavs/AndroidStudioProjects/Food/app/src/main/res/layout/activity_main.xml" value="0.17453862996559275" />
+        <entry key="..\:/Users/Firdavs/AndroidStudioProjects/Food/app/src/main/res/layout/custom_spinner_item.xml" value="0.290625" />
         <entry key="..\:/Users/Firdavs/AndroidStudioProjects/Food/app/src/main/res/layout/fragment_basket.xml" value="0.290625" />
         <entry key="..\:/Users/Firdavs/AndroidStudioProjects/Food/app/src/main/res/layout/fragment_profile.xml" value="0.290625" />
         <entry key="..\:/Users/Firdavs/AndroidStudioProjects/Food/app/src/main/res/layout/item_banner.xml" value="0.290625" />

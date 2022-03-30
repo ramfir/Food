@@ -8,6 +8,7 @@ import com.example.food.domain.model.Category
 import com.example.food.domain.model.Meal
 import com.example.food.domain.model.MealIngredient
 import com.example.food.domain.repository.MenuRepository
+import java.io.IOException
 
 class MenuRepositoryImpl(private val api: TheMealDBAPI) : MenuRepository {
 
@@ -21,12 +22,24 @@ class MenuRepositoryImpl(private val api: TheMealDBAPI) : MenuRepository {
         Banner(R.drawable.img_banner)
     )
 
-    override suspend fun getCategoryList() = api.getCategories().categories.toDomain()
+    override suspend fun getCategoryList(): List<Category> {
+        return try {
+            api.getCategories().categories.toDomain()
+        } catch (ex: IOException) {
+            println(ex.message)
+            listOf()
+        }
+    }
 
     override suspend fun getMealList(category: String): List<Meal> {
-        val mealList = api.getMealList(category).meals.toDomain()
-        mealList.forEach { it.ingredients = getMealIngredient(it.id).description }
-        return mealList
+        return try {
+            val mealList = api.getMealList(category).meals.toDomain()
+            mealList.forEach { it.ingredients = getMealIngredient(it.id).description }
+            mealList
+        } catch (ex: IOException) {
+            println(ex.message)
+            listOf()
+        }
     }
 
     private suspend fun getMealIngredient(id: String): MealIngredient {

@@ -3,7 +3,6 @@ package com.example.food.presentation.menu.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,7 +27,6 @@ class MenuFragment : Fragment(R.layout.menu_fragment) {
             viewModel.categoryItemClicked(it)
         })
     }
-
     private val mealAdapter by lazy {
         AsyncListDifferDelegationAdapter(getMealDiffCallback(), getMealAdapterDelegate())
     }
@@ -36,8 +34,6 @@ class MenuFragment : Fragment(R.layout.menu_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = MenuFragmentBinding.bind(view)
-
-        //(activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
 
         setViews()
         setObservation()
@@ -51,14 +47,13 @@ class MenuFragment : Fragment(R.layout.menu_fragment) {
             recyclerViewMeal.addItemDecoration(
                 DividerItemDecoration(activity, LinearLayoutManager.VERTICAL)
             )
-
-            val myAdapter = ArrayAdapter<String>(
+            val spinnerAdapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_list_item_1,
                 resources.getStringArray(R.array.cities)
             )
-            myAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
-            spinnerCity.adapter = myAdapter
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
+            spinnerCity.adapter = spinnerAdapter
         }
     }
 

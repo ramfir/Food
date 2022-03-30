@@ -28,9 +28,9 @@ class MenuViewModel(private val menuInteractor: MenuInteractor) : ViewModel() {
     init {
         viewModelScope.launch {
             val categories = getCategoryList().toMutableList()
-            categories[0] = categories[0].copy(isChecked = true)
+            if (!categories.isEmpty()) categories[0] = categories[0].copy(isChecked = true)
             _categoryList.value = categories
-            getMealList(categories.first { it.isChecked }.name)
+            if (!categories.isEmpty()) getMealList(categories.first { it.isChecked }.name)
         }
     }
 

@@ -4,13 +4,13 @@
     <item
         android:id="@+id/startScreenFragment"
         android:icon="@drawable/ic_menu"
-        android:title="Меню" />
+        android:title="@string/menu" />
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/ic_profile"
-        android:title="Профиль" />
+        android:title="@string/profile" />
     <item
         android:id="@+id/basketFragment"
         android:icon="@drawable/ic_basket"
-        android:title="Корзина" />
+        android:title="@string/basket" />
 </menu>

@@ -10,5 +10,5 @@ interface MenuRepository {
     fun getBannerList(): List<Banner>
     suspend fun getCategoryList(): List<Category>
     suspend fun getMealList(category: String): List<Meal>
-    suspend fun getMealIngredient(id: String): MealIngredient
+    //suspend fun getMealIngredient(id: String): MealIngredient
 }

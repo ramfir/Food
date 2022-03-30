@@ -2,7 +2,7 @@ package com.example.food.data.model
 
 import com.example.food.domain.model.Meal
 
-data class RemoteMeal(
+data class MealAPI(
     val strMeal: String,
     val strMealThumb: String,
     val idMeal: String,
@@ -11,11 +11,11 @@ data class RemoteMeal(
     val strIngredient3: String = ""
 )
 
-fun RemoteMeal.toDomain() = Meal(
+fun MealAPI.toDomain() = Meal(
     idMeal,
     strMeal,
     "$strIngredient1, $strIngredient2, $strIngredient3 ...",
     strMealThumb
 )
 
-fun List<RemoteMeal>.toDomain() = map { it.toDomain() }
+fun List<MealAPI>.toDomain() = map { it.toDomain() }

@@ -22,9 +22,14 @@ class MenuRepositoryImpl(private val api: TheMealDBAPI) : MenuRepository {
     )
 
     override suspend fun getCategoryList() = api.getCategories().categories.toDomain()
-    override suspend fun getMealList(category: String) = api.getMealList(category).meals.toDomain()
 
-    override suspend fun getMealIngredient(id: String): MealIngredient {
+    override suspend fun getMealList(category: String): List<Meal> {
+        val mealList = api.getMealList(category).meals.toDomain()
+        mealList.forEach { it.ingredients = getMealIngredient(it.id).description }
+        return mealList
+    }
+
+    private suspend fun getMealIngredient(id: String): MealIngredient {
         val mealIngredientDescription = api.getMealIngredient(id).meals[0].toDomain().ingredients
         return MealIngredient(id, mealIngredientDescription)
     }

@@ -6,12 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.food.domain.menu.MenuInteractor
 import com.example.food.domain.model.Banner
-import com.example.food.domain.model.Category
 import com.example.food.domain.model.Meal
-import com.example.food.presentation.menu.model.UICategory
+import com.example.food.presentation.menu.model.CategoryUI
 import com.example.food.presentation.menu.model.toUI
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class MenuViewModel(private val menuInteractor: MenuInteractor) : ViewModel() {
@@ -19,41 +16,43 @@ class MenuViewModel(private val menuInteractor: MenuInteractor) : ViewModel() {
     private val _bannerList = MutableLiveData(menuInteractor.getBannerList())
     val bannerList: LiveData<List<Banner>> = _bannerList
 
-    private val _categoryList = MutableLiveData<List<UICategory>>()
-    val categoryList: LiveData<List<UICategory>> = _categoryList
+    private val _categoryList = MutableLiveData<List<CategoryUI>>()
+    val categoryList: LiveData<List<CategoryUI>> = _categoryList
 
     private val _mealList = MutableLiveData<List<Meal>>()
     val mealList: LiveData<List<Meal>> = _mealList
 
-    private val taskEventChannel = Channel<TaskEvent>()
-    val taskEvent = taskEventChannel.receiveAsFlow()
+    private val _isDownloading = MutableLiveData<Boolean>()
+    val isDownloading: LiveData<Boolean> = _isDownloading
 
-    fun getCategoryList() {
+    init {
         viewModelScope.launch {
-            val categoryListFromAPI = menuInteractor.getCategoryList().toUI()
-            categoryListFromAPI[0].isChecked = true
-            _categoryList.value = categoryListFromAPI
+            val categories = getCategoryList().toMutableList()
+            categories[0] = categories[0].copy(isChecked = true)
+            _categoryList.value = categories
+            getMealList(categories.first { it.isChecked }.name)
         }
     }
 
-    fun getMealList(category: String) {
-        viewModelScope.launch {
-            val mealListFromAPI = menuInteractor.getMealList(category)
-            taskEventChannel.send(TaskEvent.ShowProgressBar)
-            getMealIngredients(mealListFromAPI)
-            _mealList.value = mealListFromAPI
-            taskEventChannel.send(TaskEvent.HideProgressBar)
-        }
+    private suspend fun getCategoryList(): List<CategoryUI> = menuInteractor.getCategoryList().toUI()
+
+    private suspend fun getMealList(category: String) {
+        _isDownloading.value = true
+        val meals = menuInteractor.getMealList(category)
+        _mealList.value = meals
+        _isDownloading.value = false
+
     }
 
-    private suspend fun getMealIngredients(mealListFromAPI: List<Meal>) {
-        mealListFromAPI.forEach { meal ->
-            meal.ingredients = menuInteractor.getMealIngredient(meal.id).description
+    fun categoryItemClicked(item: CategoryUI) {
+        categoryList.value?.let {
+            val index = it.indexOf(item)
+            if (index == -1) return
+            _categoryList.value = mutableListOf<CategoryUI>().apply {
+                it.forEach { add(it.copy(isChecked = false)) }
+                this[index] = item.copy(isChecked = true)
+            }
         }
-    }
-
-    sealed class TaskEvent {
-        object ShowProgressBar: TaskEvent()
-        object HideProgressBar: TaskEvent()
+        viewModelScope.launch { getMealList(item.name) }
     }
 }

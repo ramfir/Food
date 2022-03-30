@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Food</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="meal_ingredients">Ветчина,шампиньоны, увеличинная порция моцареллы, томатный соус</string>
+    <string name="meal_price">от 345 р</string>
+    <string name="profile_fragment">Profile Fragment</string>
+    <string name="basket_fragment">Basket Fragment</string>
+    <string name="menu">Меню</string>
+    <string name="profile">Профиль</string>
+    <string name="basket">Корзина</string>
+    <string-array name="cities">
+        <item>Москва</item>
+        <item>Смоленск</item>
+        <item>Казань</item>
+    </string-array>
+</resources>

@@ -10,6 +10,8 @@ import com.example.food.domain.model.Category
 import com.example.food.domain.model.Meal
 import com.example.food.presentation.menu.model.UICategory
 import com.example.food.presentation.menu.model.toUI
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class MenuViewModel(private val menuInteractor: MenuInteractor) : ViewModel() {
@@ -23,6 +25,9 @@ class MenuViewModel(private val menuInteractor: MenuInteractor) : ViewModel() {
     private val _mealList = MutableLiveData<List<Meal>>()
     val mealList: LiveData<List<Meal>> = _mealList
 
+    private val taskEventChannel = Channel<TaskEvent>()
+    val taskEvent = taskEventChannel.receiveAsFlow()
+
     fun getCategoryList() {
         viewModelScope.launch {
             val categoryListFromAPI = menuInteractor.getCategoryList().toUI()
@@ -34,8 +39,10 @@ class MenuViewModel(private val menuInteractor: MenuInteractor) : ViewModel() {
     fun getMealList(category: String) {
         viewModelScope.launch {
             val mealListFromAPI = menuInteractor.getMealList(category)
+            taskEventChannel.send(TaskEvent.ShowProgressBar)
             getMealIngredients(mealListFromAPI)
             _mealList.value = mealListFromAPI
+            taskEventChannel.send(TaskEvent.HideProgressBar)
         }
     }
 
@@ -43,5 +50,10 @@ class MenuViewModel(private val menuInteractor: MenuInteractor) : ViewModel() {
         mealListFromAPI.forEach { meal ->
             meal.ingredients = menuInteractor.getMealIngredient(meal.id).description
         }
+    }
+
+    sealed class TaskEvent {
+        object ShowProgressBar: TaskEvent()
+        object HideProgressBar: TaskEvent()
     }
 }

@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#FBFBFB"
+    android:orientation="vertical"
     tools:context=".presentation.menu.ui.MenuFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -30,8 +30,8 @@
                 android:id="@+id/recycler_view_banner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_scrollFlags="scroll|snap"
@@ -50,7 +50,6 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_meal"
             android:layout_width="match_parent"
@@ -61,4 +60,9 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 </LinearLayout>
